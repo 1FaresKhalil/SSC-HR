@@ -1,0 +1,48 @@
+{
+  "company": {
+    "name": "SSC HR Solutions",
+    "logo": "./logo.png"
+  },
+  "hero_section": {
+    "title": "Full Comprehensive HR Solutions",
+    "subtitle": "Tailored to your business needs",
+    "background_image": "./hero-bg.mov",
+    "buttons": [
+      {
+        "text": "Contact us",
+        "link": "/contact",
+        "style": "primary"
+      },
+      {
+        "text": "Book A meeting",
+        "link": "/book-meeting",
+        "style": "secondary"
+      }
+    ]
+  },
+  "navigation": {
+    "links": [
+      {
+        "text": "About us",
+        "link": "/about"
+      },
+      {
+        "text": "Services",
+        "link": "/services"
+      },
+      {
+        "text": "Careers",
+        "link": "/careers"
+      },
+      {
+        "text": "Blog",
+        "link": "/blog"
+      },
+      {
+        "text": "Contact us",
+        "link": "/contact",
+        "style": "highlighted"
+      }
+    ]
+  }
+}

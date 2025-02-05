@@ -1,0 +1,56 @@
+{
+  "section_title": "Our Services",
+  "services": [
+    {
+      "title": "OUT SOURCING",
+      "description": "Access an unrivaled selection of dedicated recruiting specialists to find the perfect talent based on your unique requirements.",
+      "icon": "./services/1.svg"
+    },
+    {
+      "title": "PERSONNEL CONSULTATION",
+      "description": "Access an unrivaled selection of dedicated recruiting specialists to find the perfect talent based on your unique requirements.",
+      "icon": "./services/2.svg"
+    },
+    {
+      "title": "RECRUITMENT",
+      "description": "Access an unrivaled selection of dedicated recruiting specialists to find the perfect talent based on your unique requirements.",
+      "icon": "./services/3.svg"
+    },
+    {
+      "title": "ASSESSMENT CENTER",
+      "description": "Access an unrivaled selection of dedicated recruiting specialists to find the perfect talent based on your unique requirements.",
+      "icon": "./services/4.svg"
+    },
+    {
+      "title": "PAYROLL CONSULTATION",
+      "description": "Access an unrivaled selection of dedicated recruiting specialists to find the perfect talent based on your unique requirements.",
+      "icon": "./services/5.svg"
+    },
+    {
+      "title": "OFFICE SPACE",
+      "description": "Access an unrivaled selection of dedicated recruiting specialists to find the perfect talent based on your unique requirements.",
+      "icon": "./services/6.svg"
+    },
+    {
+      "title": "VALUE ADDED SERVICES",
+      "description": [
+        "Recruitment Drive",
+        "Medical Insurance",
+        "Visa Processing and Work Permit",
+        "IT Assets Procurement",
+        "Hotels & Flight tickets Reservation in MENA & EU regions"
+      ],
+      "icon": "./services/7.svg"
+    },
+    {
+      "title": "HR Consultation Services",
+      "description": "At SSC HR Solutions, our HR Consultation Services are designed to help organizations navigate the complexities of workforce management.",
+      "icon": "./services/8.svg"
+    },
+    {
+      "title": "TEAM BUILDING ACTIVITIES",
+      "description": "SSC HR Solutions offers tailored Team Building Activities that foster collaboration, improve communication, and boost morale.",
+      "icon": "./services/9.svg"
+    }
+  ]
+}

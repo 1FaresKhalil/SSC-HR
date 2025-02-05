@@ -1,0 +1,20 @@
+{
+  "section_title": "Why Choose SSC",
+  "features": [
+    {
+      "title": "Cost Efficiency",
+      "image": "./why/1.jpg",
+      "description": "Operation cost (OPEX) and working capital associated with human and asset capitalization can be very costly and Cost optimization is becoming the definite goal of many businesses. Our clients leverage our expertise to ameliorate their periodical expenditure hence letting them focus on other revenue generation streams."
+    },
+    {
+      "title": "Quality",
+      "image": "./why/2.jpg",
+      "description": "The quality of our services is impeccable, and we leave no stone unturned when it comes to offering professional HRO outsourcing that saves our clients’ time and money so they can focus on their core activities."
+    },
+    {
+      "title": "Dedication",
+      "image": "./why/3.jpg",
+      "description": "Our team has the right experience and knowledge that empowers them to be fully dedicated and able to deliver a seamless experience to our clients."
+    }
+  ]
+}
