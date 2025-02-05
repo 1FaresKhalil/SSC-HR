@@ -58,7 +58,7 @@ export function HeroSection() {
         autoPlay
         muted
       >
-        <source src="/hero-bg.mov" type="video/mp4" />
+        <source src="/hero-bg.mp4" type="video/mp4" />
       </video>
       <div className="overlay block absolute inset-0 bg-cover bg-center w-full h-[80%] opacity-90 z-[15] bg-gradient-to-b from-white to-white/0" />
       {/* Overlay with lighter gradient */}
