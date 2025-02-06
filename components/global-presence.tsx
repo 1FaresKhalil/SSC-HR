@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import axios from 'axios';
 
@@ -14,6 +14,7 @@ interface RegionalData {
 export function GlobalPresence() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [regionalData, setRegionalData] = useState<RegionalData | null>(null);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const fetchRegionalData = async () => {
@@ -27,6 +28,20 @@ export function GlobalPresence() {
 
     fetchRegionalData();
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const parallaxY = useTransform(
+    useMotionValue(scrollY),
+    [0, 1000],
+    [0, 300]
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -111,7 +126,13 @@ export function GlobalPresence() {
   }, []);
 
   return (
-    <section className="relative max-h-[80vw] bg-[#0966B5] overflow-hidden">
+    <motion.section 
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      viewport={{ once: true }}
+      className="relative max-h-[80vw] bg-[#0966B5] overflow-hidden"
+    >
       {/* Background Canvas */}
       <canvas
         ref={canvasRef}
@@ -123,53 +144,58 @@ export function GlobalPresence() {
 
       <div className="container relative mx-auto px-4 py-20">
         <div className="grid md:grid-cols-2 gap-12 items-center">
-          {/* Image Column */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
             className="relative rounded-3xl overflow-hidden"
           >
-            <Image
-              src="./jew-video.png"
-              alt="Global Distribution Visualization"
-              width={600}
-              height={400}
-              className="w-full h-auto"
-            />
-            <video
-              className="absolute inset-0 object-cover size-full z-10"
-              loop
-              autoPlay
-              muted
-            >
-              <source src="/jew-video.mp4" type="video/mp4" />
-            </video>
+            <motion.div style={{ y: parallaxY }}>
+              <Image
+                src="./jew-video.png"
+                alt="Global Distribution Visualization"
+                width={600}
+                height={400}
+                className="w-full h-auto"
+              />
+              <video
+                className="absolute inset-0 object-cover size-full z-10"
+                loop
+                autoPlay
+                muted
+              >
+                <source src="/jew-video.mp4" type="video/mp4" />
+              </video>
+            </motion.div>
           </motion.div>
 
-          {/* Text Content */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, x: 100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            viewport={{ once: true }}
             className="space-y-6"
           >
-            <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
-              {regionalData?.section_title ||
-                'Regional Allocation, Global Distribution.'}
-            </h2>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="text-4xl md:text-6xl font-bold text-white leading-tight"
+            >
+              {regionalData?.section_title || 'Regional Allocation, Global Distribution.'}
+            </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
               className="text-xl md:text-2xl text-white/90"
             >
-              {regionalData?.subtitle ||
-                'With Operating Locations Across Egypt, UAE, KSA, & Bahrain.'}
+              {regionalData?.subtitle || 'With Operating Locations Across Egypt, UAE, KSA, & Bahrain.'}
             </motion.p>
           </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

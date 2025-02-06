@@ -3,8 +3,13 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from 'framer-motion';
+import { AlignJustify, X } from 'lucide-react';
 import axios from 'axios';
 
 // Types for the nav-hero data
@@ -61,6 +66,32 @@ const buttonVariants = {
 export function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [navData, setNavData] = useState<NavHeroData | null>(null);
+  const { scrollY } = useScroll();
+
+  // Transform values for scroll-based animations
+  const headerBackground = useTransform(
+    scrollY,
+    [0, 100],
+    isOpen
+      ? ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)'] // Always transparent when menu is open
+      : ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.9)']
+  );
+
+  const headerShadow = useTransform(
+    scrollY,
+    [0, 100],
+    isOpen
+      ? ['0px 0px 0px rgba(0,0,0,0)', '0px 0px 0px rgba(0,0,0,0)'] // No shadow when menu is open
+      : ['0px 0px 0px rgba(0,0,0,0)', '0px 4px 20px rgba(0,0,0,0.1)']
+  );
+
+  const textColor = useTransform(
+    scrollY,
+    [0, 100],
+    isOpen
+      ? ['rgb(255, 255, 255)', 'rgb(255, 255, 255)'] // Always white when menu is open
+      : ['rgb(53, 127, 176)', 'rgb(12, 116, 184)']
+  );
 
   useEffect(() => {
     const fetchNavData = async () => {
@@ -75,6 +106,25 @@ export function NavBar() {
     fetchNavData();
   }, []);
 
+  // Add useEffect to handle body scroll
+  useEffect(() => {
+    if (isOpen) {
+      // Prevent scrolling when menu is open
+      document.body.style.overflow = 'hidden';
+      document.body.style.height = '100vh';
+    } else {
+      // Re-enable scrolling when menu is closed
+      document.body.style.overflow = 'unset';
+      document.body.style.height = 'auto';
+    }
+
+    // Cleanup function to ensure scrolling is re-enabled when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+      document.body.style.height = 'auto';
+    };
+  }, [isOpen]);
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   // Get all links except the last one (contact us)
@@ -82,38 +132,83 @@ export function NavBar() {
   const contactLink =
     navData?.navigation.links[navData.navigation.links.length - 1];
 
+  const navItemVariants = {
+    hidden: { y: -20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 10,
+      },
+    },
+  };
+
   return (
     <>
-      <nav className="absolute top-0 left-0 right-0 z-50 px-4 py-4">
+      <motion.nav
+        className="fixed top-0 left-0 right-0 z-50 px-4 py-4"
+        style={{
+          backgroundColor: headerBackground,
+          boxShadow: headerShadow,
+          backdropFilter: isOpen ? 'none' : 'blur(8px)',
+        }}
+      >
         <div className="container mx-auto flex items-center justify-between">
-          <Link href="/" className="relative z-50 flex items-center space-x-2">
-            <Image
-              src="./logo.png"
-              alt={navData?.company.name || 'SSC HR Solutions'}
-              width={150}
-              height={40}
-              className="h-10 w-auto"
-            />
-          </Link>
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link
+              href="/"
+              className="relative z-50 flex items-center space-x-2"
+            >
+              <Image
+                src="./logo.png"
+                alt={navData?.company.name || 'SSC HR Solutions'}
+                width={150}
+                height={40}
+                className="h-10 w-auto"
+              />
+            </Link>
+          </motion.div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8">
-            {menuItems.map((item) => (
-              <Link
+            {menuItems.map((item, index) => (
+              <motion.div
                 key={item.link}
-                href={item.link}
-                className="text-[#357FB0] hover:text-blue-800 transition-colors"
+                variants={navItemVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: index * 0.1 }}
               >
-                {item.text}
-              </Link>
+                <Link href={item.link} className="relative group">
+                  <motion.span style={{ color: textColor }}>
+                    {item.text}
+                  </motion.span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0C74B8] transition-all group-hover:w-full" />
+                </Link>
+              </motion.div>
             ))}
             {contactLink && (
-              <Link
-                href={contactLink.link}
-                className="bg-white text-[#0C74B8] px-6 py-2 rounded-sm rounded-bl-2xl rounded-tr-2xl hover:bg-blue-50 transition-all duration-300 font-medium"
+              <motion.div
+                variants={navItemVariants}
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: menuItems.length * 0.1 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {contactLink.text}
-              </Link>
+                <Link
+                  href={contactLink.link}
+                  className="bg-[#0C74B8] text-white px-6 py-2 rounded-sm rounded-bl-2xl rounded-tr-2xl hover:bg-blue-700 transition-all duration-300 font-medium"
+                >
+                  {contactLink.text}
+                </Link>
+              </motion.div>
             )}
           </div>
 
@@ -125,31 +220,41 @@ export function NavBar() {
               whileHover="hover"
               whileTap="tap"
               onClick={toggleMenu}
-              className="relative z-50 p-2"
+              className="relative z-50 p-3 focus:outline-none"
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
               <motion.div
                 initial={false}
                 animate={{ opacity: isOpen ? 0 : 1 }}
                 transition={{ duration: 0.2 }}
-                className="absolute inset-0 flex items-center justify-center text-white"
+                className="absolute inset-0 flex items-center justify-center"
               >
-                <Menu size={24} />
+                <AlignJustify
+                  size={38}
+                  className={`transition-colors ${
+                    isOpen ? 'text-white' : 'text-[#0C74B8]'
+                  }`}
+                  strokeWidth={1.5}
+                />
               </motion.div>
               <motion.div
                 initial={false}
                 animate={{ opacity: isOpen ? 1 : 0 }}
                 transition={{ duration: 0.2 }}
-                className="absolute inset-0 flex items-center justify-center text-white"
+                className="absolute inset-0 flex items-center justify-center"
               >
-                <X size={24} />
+                <X
+                  size={38}
+                  className="text-white transition-colors"
+                  strokeWidth={1.5}
+                />
               </motion.div>
             </motion.button>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay with simplified background */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -157,7 +262,7 @@ export function NavBar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-blue-600 md:hidden"
+            className="fixed inset-0 z-40 bg-blue-600/95 backdrop-blur-sm md:hidden overflow-hidden"
           >
             <motion.div
               variants={menuVariants}
@@ -192,22 +297,8 @@ export function NavBar() {
                 )}
               </div>
 
-              {/* Background Animation */}
-              <motion.div
-                className="absolute inset-0 -z-10"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: [0, 1, 0.5],
-                  transition: {
-                    duration: 3,
-                    repeat: Number.POSITIVE_INFINITY,
-                    repeatType: 'reverse',
-                  },
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-700" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-              </motion.div>
+              {/* Simple gradient background */}
+              <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-500 to-blue-700" />
             </motion.div>
           </motion.div>
         )}

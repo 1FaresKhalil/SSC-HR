@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 import axios from 'axios';
 
 interface HeroData {
@@ -42,6 +43,30 @@ export function HeroSection() {
     fetchHeroData();
   }, []);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: 'spring',
+        stiffness: 100,
+        damping: 10,
+      },
+    },
+  };
+
   return (
     <div className="hero-section relative min-h-screen overflow-hidden">
       {/* Background Image with Parallax */}
@@ -64,28 +89,49 @@ export function HeroSection() {
       {/* Overlay with lighter gradient */}
       <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-black/20 z-20" />
 
-      {/* Content */}
+      {/* Updated Content section */}
       <div className="absolute container px-4 pt-32 md:pt-48 lg:pt-0 z-30 flex flex-col size-full left-0 right-0 justify-center text-center">
-        <div className="max-w-[80vw] hero-text mx-auto h-max inline-flex flex-col items-center">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+        <motion.div
+          className="max-w-[80vw] hero-text mx-auto h-max inline-flex flex-col items-center"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.h1
+            variants={itemVariants}
+            className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight"
+          >
             {heroData?.hero_section.title || 'Full Comprehensive HR Solutions'}
-          </h1>
-          <p className="text-2xl md:text-5xl text-[#5CEACE] font-semibold mb-8">
+          </motion.h1>
+
+          <motion.p
+            variants={itemVariants}
+            className="text-2xl md:text-5xl text-[#5CEACE] font-semibold mb-8"
+          >
             {heroData?.hero_section.subtitle ||
               'Tailored to your business needs'}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
+          </motion.p>
+
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row gap-4"
+          >
             {heroData?.hero_section.buttons.map((button, index) =>
               button.style === 'primary' ? (
-                <Button
+                <motion.div
                   key={index}
-                  className="bg-[#0C74B8] text-white hover:bg-blue-600 px-8 py-6 text-lg rounded-sm rounded-bl-2xl rounded-tr-2xl"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                 >
-                  {button.text}
-                </Button>
+                  <Button className="bg-[#0C74B8] text-white hover:bg-blue-600 px-8 py-6 text-lg rounded-sm rounded-bl-2xl rounded-tr-2xl">
+                    {button.text}
+                  </Button>
+                </motion.div>
               ) : (
-                <div
+                <motion.div
                   key={index}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   className="p-[2px] bg-gradient-to-r from-[#0C74B8] to-[#25E2CC] rounded-sm rounded-bl-2xl rounded-tr-2xl"
                 >
                   <Button
@@ -94,11 +140,11 @@ export function HeroSection() {
                   >
                     {button.text}
                   </Button>
-                </div>
+                </motion.div>
               )
             )}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
