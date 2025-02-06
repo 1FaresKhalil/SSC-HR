@@ -82,6 +82,12 @@ export function HeroSection() {
         loop
         autoPlay
         muted
+        playsInline
+        controls={false}
+        webkit-playsinline="true"
+        preload="auto"
+        disablePictureInPicture
+        disableRemotePlayback
       >
         <source src="/hero-bg.mp4" type="video/mp4" />
       </video>

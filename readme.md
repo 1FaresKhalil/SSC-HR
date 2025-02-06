@@ -92,18 +92,12 @@ The backend is implemented using Next.js API Routes, providing a serverless arch
 ```
 ├── app/
 │   ├── api/
-│   │   ├── nav-hero/
-│   │   │   └── route.ts        # Navigation and hero section data
-│   │   ├── our-story/
-│   │   │   └── route.ts        # Company story and history
-│   │   ├── regional-allocation/
-│   │   │   └── route.ts        # Regional presence data
-│   │   ├── services/
-│   │   │   └── route.ts        # Services information
+│   │   ├── contact/
+│   │   │   └── route.ts     # Contact form handling
 │   │   ├── testimonials/
-│   │   │   └── route.ts        # Client testimonials
-│   │   └── why-choose-ssc/
-│   │       └── route.ts        # Company benefits and features
+│   │   │   └── route.ts     # Testimonials data
+│   │   └── services/
+│   │       └── route.ts     # Services information
 ```
 
 ### Features
@@ -115,12 +109,9 @@ The backend is implemented using Next.js API Routes, providing a serverless arch
 - **Security:** Built-in CORS and request validation
 
 ### API Endpoints
-- `GET /api/nav-hero` - Fetch navigation menu and hero section content
-- `GET /api/our-story` - Retrieve company history and story data
-- `GET /api/regional-allocation` - Get global presence and regional distribution data
-- `GET /api/services` - Fetch available services information
-- `GET /api/testimonials` - Get client testimonials and reviews
-- `GET /api/why-choose-ssc` - Retrieve company benefits and unique selling points
+- `POST /api/contact` - Handle contact form submissions
+- `GET /api/testimonials` - Fetch testimonials data
+- `GET /api/services` - Retrieve services information
 
 ## 📱 Responsive Design
 
