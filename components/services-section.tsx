@@ -69,23 +69,23 @@ export function ServicesSection() {
       y: 0,
       transition: {
         duration: 0.6,
-        ease: "easeOut",
+        ease: 'easeOut',
       },
     },
   };
 
   const cardVariants = {
-    hidden: { 
+    hidden: {
       opacity: 0,
       y: 50,
-      scale: 0.95
+      scale: 0.95,
     },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 100,
         damping: 12,
         duration: 0.5,
@@ -94,40 +94,40 @@ export function ServicesSection() {
   };
 
   const iconVariants = {
-    hidden: { 
+    hidden: {
       scale: 0,
       opacity: 0,
-      rotate: -45
+      rotate: -45,
     },
-    visible: { 
+    visible: {
       scale: 1,
       opacity: 1,
       rotate: 0,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 200,
         damping: 20,
-      }
-    }
+      },
+    },
   };
 
   const textVariants = {
     hidden: { opacity: 0, x: -20 },
-    visible: { 
+    visible: {
       opacity: 1,
       x: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut"
-      }
-    }
+        ease: 'easeOut',
+      },
+    },
   };
 
   return (
     <motion.section
       ref={sectionRef}
       initial="hidden"
-      animate={inView ? "visible" : "hidden"}
+      animate={inView ? 'visible' : 'hidden'}
       variants={containerVariants}
       className="bg-[#222222] py-20"
     >
@@ -149,18 +149,15 @@ export function ServicesSection() {
               key={index}
               variants={cardVariants}
               custom={index}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.02,
-                transition: { duration: 0.2 }
+                transition: { duration: 0.2 },
               }}
               className="h-full"
             >
               <Card className="bg-[#0C74B8] text-white py-6 lg:py-9 border-0 h-full transform transition-all duration-300 hover:shadow-2xl">
                 <CardContent className="p-6">
-                  <motion.div
-                    variants={iconVariants}
-                    className="mb-6"
-                  >
+                  <motion.div variants={iconVariants} className="mb-6">
                     <Image
                       src={`services/${index + 1}.svg`}
                       className="w-12 h-12"
@@ -175,10 +172,7 @@ export function ServicesSection() {
                   >
                     {service.title}
                   </motion.h3>
-                  <motion.div
-                    variants={textVariants}
-                    className="text-blue-100"
-                  >
+                  <motion.div variants={textVariants} className="text-blue-100">
                     {typeof service.description === 'string' ? (
                       <p>{service.description}</p>
                     ) : (
@@ -205,18 +199,15 @@ export function ServicesSection() {
               key={index}
               variants={cardVariants}
               custom={index + 6}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.02,
-                transition: { duration: 0.2 }
+                transition: { duration: 0.2 },
               }}
               className="h-full"
             >
               <Card className="bg-[#0C74B8] text-white py-6 lg:py-9 border-0 h-full transform transition-all duration-300 hover:shadow-2xl">
                 <CardContent className="p-6">
-                  <motion.div
-                    variants={iconVariants}
-                    className="mb-6"
-                  >
+                  <motion.div variants={iconVariants} className="mb-6">
                     <Image
                       src={`services/${index + 7}.svg`}
                       className="w-12 h-12"
@@ -231,10 +222,7 @@ export function ServicesSection() {
                   >
                     {service.title}
                   </motion.h3>
-                  <motion.div
-                    variants={textVariants}
-                    className="text-blue-100"
-                  >
+                  <motion.div variants={textVariants} className="text-blue-100">
                     {typeof service.description === 'string' ? (
                       <p>{service.description}</p>
                     ) : (

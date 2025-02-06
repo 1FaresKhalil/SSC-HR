@@ -108,7 +108,8 @@ export function HeroSection() {
             variants={itemVariants}
             className="text-xl sm:text-2xl md:text-5xl text-[#5CEACE] font-semibold mb-6 md:mb-8 leading-snug"
           >
-            {heroData?.hero_section.subtitle || 'Tailored to your business needs'}
+            {heroData?.hero_section.subtitle ||
+              'Tailored to your business needs'}
           </motion.p>
 
           <motion.div

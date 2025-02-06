@@ -37,11 +37,7 @@ export function GlobalPresence() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const parallaxY = useTransform(
-    useMotionValue(scrollY),
-    [0, 1000],
-    [0, 300]
-  );
+  const parallaxY = useTransform(useMotionValue(scrollY), [0, 1000], [0, 300]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -126,7 +122,7 @@ export function GlobalPresence() {
   }, []);
 
   return (
-    <motion.section 
+    <motion.section
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -146,13 +142,14 @@ export function GlobalPresence() {
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Mobile Title - Show above image on mobile */}
           <div className="md:hidden mb-8">
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4"
             >
-              {regionalData?.section_title || 'Regional Allocation, Global Distribution.'}
+              {regionalData?.section_title ||
+                'Regional Allocation, Global Distribution.'}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -160,7 +157,8 @@ export function GlobalPresence() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg sm:text-xl text-white/90"
             >
-              {regionalData?.subtitle || 'With Operating Locations Across Egypt, UAE, KSA, & Bahrain.'}
+              {regionalData?.subtitle ||
+                'With Operating Locations Across Egypt, UAE, KSA, & Bahrain.'}
             </motion.p>
           </div>
 
@@ -172,7 +170,7 @@ export function GlobalPresence() {
             viewport={{ once: true }}
             className="relative rounded-3xl overflow-hidden shadow-2xl"
           >
-            <motion.div 
+            <motion.div
               style={{ y: parallaxY }}
               className="aspect-video md:aspect-auto"
             >
@@ -203,13 +201,14 @@ export function GlobalPresence() {
             viewport={{ once: true }}
             className="hidden md:block space-y-6"
           >
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
               className="text-4xl md:text-6xl font-bold text-white leading-tight"
             >
-              {regionalData?.section_title || 'Regional Allocation, Global Distribution.'}
+              {regionalData?.section_title ||
+                'Regional Allocation, Global Distribution.'}
             </motion.h2>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -217,7 +216,8 @@ export function GlobalPresence() {
               transition={{ duration: 0.6, delay: 0.8 }}
               className="text-xl md:text-2xl text-white/90"
             >
-              {regionalData?.subtitle || 'With Operating Locations Across Egypt, UAE, KSA, & Bahrain.'}
+              {regionalData?.subtitle ||
+                'With Operating Locations Across Egypt, UAE, KSA, & Bahrain.'}
             </motion.p>
           </motion.div>
         </div>
