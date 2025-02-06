@@ -60,8 +60,8 @@ export function GlobalPresence() {
 
     // Particle system
     const particles: { x: number; y: number; vx: number; vy: number }[] = [];
-    const particleCount = 50;
-    const connectionDistance = 150;
+    const particleCount = 170;
+    const connectionDistance = 200;
     const particleSpeed = 0.5;
 
     // Create particles
@@ -131,51 +131,77 @@ export function GlobalPresence() {
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
       viewport={{ once: true }}
-      className="relative max-h-[80vw] bg-[#0966B5] overflow-hidden"
+      className="relative min-h-[60vh] md:max-h-[80vw] bg-[#0966B5] overflow-hidden py-16 md:py-20"
     >
       {/* Background Canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
+        className="absolute inset-0 w-full h-full opacity-50 md:opacity-100"
         style={{
           background: 'linear-gradient(to bottom right, #0966B5, #0966B5)',
         }}
       />
 
-      <div className="container relative mx-auto px-4 py-20">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="container relative mx-auto px-4">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* Mobile Title - Show above image on mobile */}
+          <div className="md:hidden mb-8">
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4"
+            >
+              {regionalData?.section_title || 'Regional Allocation, Global Distribution.'}
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg sm:text-xl text-white/90"
+            >
+              {regionalData?.subtitle || 'With Operating Locations Across Egypt, UAE, KSA, & Bahrain.'}
+            </motion.p>
+          </div>
+
+          {/* Image Container */}
           <motion.div
-            initial={{ opacity: 0, x: -100 }}
+            initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="relative rounded-3xl overflow-hidden"
+            className="relative rounded-3xl overflow-hidden shadow-2xl"
           >
-            <motion.div style={{ y: parallaxY }}>
+            <motion.div 
+              style={{ y: parallaxY }}
+              className="aspect-video md:aspect-auto"
+            >
               <Image
                 src="./jew-video.png"
                 alt="Global Distribution Visualization"
                 width={600}
                 height={400}
-                className="w-full h-auto"
+                className="w-full h-full object-cover"
               />
               <video
-                className="absolute inset-0 object-cover size-full z-10"
+                className="absolute inset-0 object-cover w-full h-full z-10"
                 loop
                 autoPlay
                 muted
+                playsInline
               >
                 <source src="/jew-video.mp4" type="video/mp4" />
               </video>
             </motion.div>
           </motion.div>
 
+          {/* Desktop Text Content - Hidden on mobile */}
           <motion.div
-            initial={{ opacity: 0, x: 100 }}
+            initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            className="space-y-6"
+            className="hidden md:block space-y-6"
           >
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
