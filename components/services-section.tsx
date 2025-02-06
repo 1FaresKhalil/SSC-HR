@@ -56,27 +56,14 @@ export function ServicesSection() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
+        staggerChildren: 0.15,
+        delayChildren: 0.1,
       },
     },
   };
 
   const titleVariants = {
-    hidden: { opacity: 0, y: -20 },
+    hidden: { opacity: 0, y: -30 },
     visible: {
       opacity: 1,
       y: 0,
@@ -85,6 +72,55 @@ export function ServicesSection() {
         ease: "easeOut",
       },
     },
+  };
+
+  const cardVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 50,
+      scale: 0.95
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+        duration: 0.5,
+      },
+    },
+  };
+
+  const iconVariants = {
+    hidden: { 
+      scale: 0,
+      opacity: 0,
+      rotate: -45
+    },
+    visible: { 
+      scale: 1,
+      opacity: 1,
+      rotate: 0,
+      transition: {
+        type: "spring",
+        stiffness: 200,
+        damping: 20,
+      }
+    }
+  };
+
+  const textVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { 
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }
   };
 
   return (
@@ -98,7 +134,7 @@ export function ServicesSection() {
       <div className="container mx-auto px-4">
         <motion.h2
           variants={titleVariants}
-          className="text-4xl font-bold text-white mb-16 text-center"
+          className="text-3xl sm:text-4xl font-bold text-white mb-12 md:mb-16 text-center"
         >
           {serviceData?.section_title || 'Our Services'}
         </motion.h2>
@@ -106,50 +142,53 @@ export function ServicesSection() {
         {/* Main Services Grid */}
         <motion.div
           variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8"
         >
           {mainServices.map((service, index) => (
             <motion.div
               key={index}
               variants={cardVariants}
+              custom={index}
               whileHover={{ 
                 scale: 1.02,
                 transition: { duration: 0.2 }
               }}
+              className="h-full"
             >
               <Card className="bg-[#0C74B8] text-white py-6 lg:py-9 border-0 h-full transform transition-all duration-300 hover:shadow-2xl">
                 <CardContent className="p-6">
                   <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: index * 0.1 }}
+                    variants={iconVariants}
+                    className="mb-6"
                   >
                     <Image
                       src={`services/${index + 1}.svg`}
-                      className="w-12 h-12 mb-4"
+                      className="w-12 h-12"
                       alt={service.title}
                       width={200}
                       height={200}
                     />
                   </motion.div>
                   <motion.h3
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 + 0.2 }}
+                    variants={textVariants}
                     className="text-xl font-bold mb-4"
                   >
                     {service.title}
                   </motion.h3>
-                  <motion.p
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: index * 0.1 + 0.4 }}
+                  <motion.div
+                    variants={textVariants}
                     className="text-blue-100"
                   >
-                    {typeof service.description === 'string'
-                      ? service.description
-                      : service.description.join(', ')}
-                  </motion.p>
+                    {typeof service.description === 'string' ? (
+                      <p>{service.description}</p>
+                    ) : (
+                      <ul className="list-disc list-inside space-y-2">
+                        {service.description.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </motion.div>
                 </CardContent>
               </Card>
             </motion.div>
@@ -165,62 +204,47 @@ export function ServicesSection() {
             <motion.div
               key={index}
               variants={cardVariants}
+              custom={index + 6}
               whileHover={{ 
                 scale: 1.02,
                 transition: { duration: 0.2 }
               }}
+              className="h-full"
             >
               <Card className="bg-[#0C74B8] text-white py-6 lg:py-9 border-0 h-full transform transition-all duration-300 hover:shadow-2xl">
                 <CardContent className="p-6">
                   <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: (index + 6) * 0.1 }}
+                    variants={iconVariants}
+                    className="mb-6"
                   >
                     <Image
                       src={`services/${index + 7}.svg`}
-                      className="w-12 h-12 mb-4"
+                      className="w-12 h-12"
                       alt={service.title}
                       width={200}
                       height={200}
                     />
                   </motion.div>
                   <motion.h3
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: (index + 6) * 0.1 + 0.2 }}
+                    variants={textVariants}
                     className="text-xl font-bold mb-4"
                   >
                     {service.title}
                   </motion.h3>
-                  {Array.isArray(service.description) ? (
-                    <motion.ul
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: (index + 6) * 0.1 + 0.4 }}
-                      className="list-disc list-inside text-blue-100 space-y-2"
-                    >
-                      {service.description.map((item, i) => (
-                        <motion.li
-                          key={i}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: (index + 6) * 0.1 + 0.4 + i * 0.1 }}
-                        >
-                          {item}
-                        </motion.li>
-                      ))}
-                    </motion.ul>
-                  ) : (
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: (index + 6) * 0.1 + 0.4 }}
-                      className="text-blue-100"
-                    >
-                      {service.description}
-                    </motion.p>
-                  )}
+                  <motion.div
+                    variants={textVariants}
+                    className="text-blue-100"
+                  >
+                    {typeof service.description === 'string' ? (
+                      <p>{service.description}</p>
+                    ) : (
+                      <ul className="list-disc list-inside space-y-2">
+                        {service.description.map((item, i) => (
+                          <li key={i}>{item}</li>
+                        ))}
+                      </ul>
+                    )}
+                  </motion.div>
                 </CardContent>
               </Card>
             </motion.div>
